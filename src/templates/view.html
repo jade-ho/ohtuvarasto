@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ name }} - Storage Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ name }}</h1>
+
+    <div class="storage-info">
+        <p><strong>Capacity (tilavuus):</strong> {{ varasto.tilavuus }}</p>
+        <p><strong>Current Contents (saldo):</strong> {{ varasto.saldo }}</p>
+        <p><strong>Available Space:</strong> {{ varasto.paljonko_mahtuu() }}</p>
+        <div class="progress-bar">
+            {% set percentage = (varasto.saldo / varasto.tilavuus * 100) if varasto.tilavuus > 0 else 0 %}
+            <div class="progress-fill" style="width: {{ percentage }}%"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Add Contents</h2>
+    <form action="{{ url_for('add', varasto_id=varasto_id) }}" method="post">
+        <div class="form-group">
+            <label for="add_maara">Amount to add:</label>
+            <input type="number" id="add_maara" name="maara" step="0.01" min="0.01" required>
+        </div>
+        <button type="submit" class="btn btn-success">Add to Storage</button>
+    </form>
+</div>
+
+<div class="container">
+    <h2>Remove Contents</h2>
+    <form action="{{ url_for('remove', varasto_id=varasto_id) }}" method="post">
+        <div class="form-group">
+            <label for="remove_maara">Amount to remove:</label>
+            <input type="number" id="remove_maara" name="maara" step="0.01" min="0.01" required>
+        </div>
+        <button type="submit" class="btn btn-danger">Remove from Storage</button>
+    </form>
+</div>
+
+<div class="container">
+    <h2>Delete Storage</h2>
+    <form action="{{ url_for('delete', varasto_id=varasto_id) }}" method="post">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this storage?')">Delete This Storage</button>
+    </form>
+</div>
+{% endblock %}
