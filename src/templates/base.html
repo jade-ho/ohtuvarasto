@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Warehouse App{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff0f5;
+        }
+        h1, h2 {
+            color: #d63384;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(214, 51, 132, 0.2);
+            margin-bottom: 20px;
+            border: 1px solid #ffb6c1;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e91e8c;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background-color: #c2185b;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .btn-success {
+            background-color: #ff69b4;
+        }
+        .btn-success:hover {
+            background-color: #ff1493;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #d63384;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffb6c1;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff69b4;
+            box-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+        }
+        .storage-list {
+            list-style: none;
+            padding: 0;
+        }
+        .storage-item {
+            background: #ffe4ec;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #ff69b4;
+        }
+        .storage-info {
+            flex-grow: 1;
+        }
+        .storage-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .progress-bar {
+            height: 20px;
+            background: #ffd1dc;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #ff69b4;
+            transition: width 0.3s;
+        }
+        nav {
+            margin-bottom: 20px;
+            background: #ffb6c1;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        nav a {
+            margin-right: 15px;
+            color: #c2185b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+            color: #880e4f;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('create') }}">Create New Storage</a>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>
