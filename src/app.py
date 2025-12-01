@@ -60,6 +60,10 @@ def add(varasto_id):
     except ValueError:
         return redirect(url_for('view', varasto_id=varasto_id))
 
+    # Validate that amount is positive
+    if maara <= 0:
+        return redirect(url_for('view', varasto_id=varasto_id))
+
     varastot[varasto_id]['varasto'].lisaa_varastoon(maara)
     return redirect(url_for('view', varasto_id=varasto_id))
 
@@ -72,6 +76,10 @@ def remove(varasto_id):
     try:
         maara = float(request.form.get('maara', 0))
     except ValueError:
+        return redirect(url_for('view', varasto_id=varasto_id))
+
+    # Validate that amount is positive
+    if maara <= 0:
         return redirect(url_for('view', varasto_id=varasto_id))
 
     varastot[varasto_id]['varasto'].ota_varastosta(maara)
@@ -87,4 +95,4 @@ def delete(varasto_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

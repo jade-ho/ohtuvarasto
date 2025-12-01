@@ -165,3 +165,47 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Storage 1', response.data)
         self.assertIn(b'Storage 2', response.data)
+
+    def test_add_negative_amount(self):
+        self.client.post('/create', data={
+            'name': 'Test Storage',
+            'tilavuus': '100',
+            'alku_saldo': '10'
+        })
+        response = self.client.post('/add/1', data={'maara': '-5'}, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        # Should redirect to view with unchanged saldo (negative amount rejected)
+        self.assertEqual(app_module.varastot[1]['varasto'].saldo, 10)
+
+    def test_add_zero_amount(self):
+        self.client.post('/create', data={
+            'name': 'Test Storage',
+            'tilavuus': '100',
+            'alku_saldo': '10'
+        })
+        response = self.client.post('/add/1', data={'maara': '0'}, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        # Should redirect to view with unchanged saldo (zero amount rejected)
+        self.assertEqual(app_module.varastot[1]['varasto'].saldo, 10)
+
+    def test_remove_negative_amount(self):
+        self.client.post('/create', data={
+            'name': 'Test Storage',
+            'tilavuus': '100',
+            'alku_saldo': '50'
+        })
+        response = self.client.post('/remove/1', data={'maara': '-5'}, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        # Should redirect to view with unchanged saldo (negative amount rejected)
+        self.assertEqual(app_module.varastot[1]['varasto'].saldo, 50)
+
+    def test_remove_zero_amount(self):
+        self.client.post('/create', data={
+            'name': 'Test Storage',
+            'tilavuus': '100',
+            'alku_saldo': '50'
+        })
+        response = self.client.post('/remove/1', data={'maara': '0'}, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        # Should redirect to view with unchanged saldo (zero amount rejected)
+        self.assertEqual(app_module.varastot[1]['varasto'].saldo, 50)
